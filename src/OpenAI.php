@@ -14,7 +14,17 @@ final class OpenAI
     /**
      * Creates a new Open AI Client with the given API token.
      */
-    public static function client(string $apiKey, string|null $url, string|null $organization = null): Client
+    public static function client(string $apiKey, string|null $url = null, string|null $organization = null, array $abilities = [
+        'completions' => true,
+        'edits' => true,
+        'embeddings' => true,
+        'files' => true,
+        'fine_tunes' => true,
+        'images' => true,
+        'models' => true,
+        'engines' => false,
+        'moderations' => true,
+    ]): Client
     {
         $apiKey = ApiKey::from($apiKey);
 

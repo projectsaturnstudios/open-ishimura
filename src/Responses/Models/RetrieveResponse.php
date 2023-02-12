@@ -40,16 +40,16 @@ final class RetrieveResponse implements Response
     {
         $permission = array_map(fn (array $result): RetrieveResponsePermission => RetrieveResponsePermission::from(
             $result
-        ), $attributes['permission']);
+        ), $attributes['permission'] ?? []);
 
         return new self(
             $attributes['id'],
             $attributes['object'],
-            $attributes['created'],
-            $attributes['owned_by'],
+            $attributes['created'] ?? 0,
+            $attributes['owned_by'] ?? $attributes['owner'] ?? 'Unknown',
             $permission,
-            $attributes['root'],
-            $attributes['parent'],
+            $attributes['root'] ?? $attributes['tokenizer'] ?? 'Unknown',
+            $attributes['parent'] ?? null
         );
     }
 

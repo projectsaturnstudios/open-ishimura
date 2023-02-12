@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use GuzzleHttp\Client as GuzzleClient;
 use OpenAI\Client;
+use OpenAI\OpenAIClient;
+use OpenAI\GooseAIClient;
 use OpenAI\Transporters\HttpTransporter;
 use OpenAI\ValueObjects\ApiKey;
 use OpenAI\ValueObjects\Transporter\BaseUri;
@@ -40,6 +42,6 @@ final class OpenAI
 
         $transporter = new HttpTransporter($client, $baseUri, $headers);
 
-        return new Client($transporter);
+        return $abilities['engines'] ? new GooseAIClient($transporter, $abilities) : new OpenAIClient($transporter, $abilities);
     }
 }

@@ -15,7 +15,7 @@ use OpenAI\Resources\Models;
 use OpenAI\Resources\Engines;
 use OpenAI\Resources\Moderations;
 
-final class Client
+abstract class Client
 {
     /**
      * Creates a Client instance with the given API token.

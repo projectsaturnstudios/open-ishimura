@@ -1,13 +1,17 @@
 {
-    "name": "openai-php/client",
-    "description": "OpenAI PHP is a supercharged PHP API client that allows you to interact with the Open AI API",
+    "name": "projectsaturn/open-ishimura",
+    "description": "OpenAI PHP is a supercharged PHP API client that allows you to interact with the Open AI API. Based on openai-php by Nuno Maduro.",
     "keywords": ["php", "openai", "sdk", "codex", "GPT-3", "DALL-E", "api", "client", "natural", "language", "processing"],
     "license": "MIT",
     "authors": [
         {
             "name": "Nuno Maduro",
             "email": "enunomaduro@gmail.com"
-        }
+        },
+        {
+            "name": "Angel Gonzalez",
+            "email": "usftechacg+ishi@gmail.com"
+        },
     ],
     "require": {
         "php": "^8.1.0",

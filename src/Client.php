@@ -12,6 +12,7 @@ use OpenAI\Resources\Files;
 use OpenAI\Resources\FineTunes;
 use OpenAI\Resources\Images;
 use OpenAI\Resources\Models;
+use OpenAI\Resources\Engines;
 use OpenAI\Resources\Moderations;
 
 final class Client
@@ -19,7 +20,17 @@ final class Client
     /**
      * Creates a Client instance with the given API token.
      */
-    public function __construct(private readonly Transporter $transporter)
+    public function __construct(private readonly Transporter $transporter, private readonly array $abilities = [
+        'completions' => true,
+        'edits' => true,
+        'embeddings' => true,
+        'files' => true,
+        'fine_tunes' => true,
+        'images' => true,
+        'models' => true,
+        'engines' => false,
+        'moderations' => true,
+    ])
     {
         // ..
     }
@@ -32,6 +43,7 @@ final class Client
      */
     public function completions(): Completions
     {
+        if(!$this->abilities['completions']) throw new \DomainException('Completions are not Supported');
         return new Completions($this->transporter);
     }
 
@@ -42,6 +54,7 @@ final class Client
      */
     public function embeddings(): Embeddings
     {
+        if(!$this->abilities['embeddings']) throw new \DomainException('Embeddings are not Supported');
         return new Embeddings($this->transporter);
     }
 
@@ -52,6 +65,7 @@ final class Client
      */
     public function edits(): Edits
     {
+        if(!$this->abilities['edits']) throw new \DomainException('Edits are not Supported');
         return new Edits($this->transporter);
     }
 
@@ -62,6 +76,7 @@ final class Client
      */
     public function files(): Files
     {
+        if(!$this->abilities['files']) throw new \DomainException('Files are not Supported');
         return new Files($this->transporter);
     }
 
@@ -70,9 +85,21 @@ final class Client
      *
      * @see https://beta.openai.com/docs/api-reference/models
      */
-    public function models(): Models
+    public function models(): Models | Engines
     {
-        return new Models($this->transporter);
+        if($this->abilities['engines']) return $this->engines();
+        else {
+            if(!$this->abilities['completions']) throw new \DomainException('Completions are not Supported');
+            return new Models($this->transporter);
+        }
+
+    }
+
+    public function engines(): Models | Engines
+    {
+        if(!$this->abilities['engines']) throw new \DomainException('GooseAI Engines are not Supported');
+        return new Engines($this->transporter);
+
     }
 
     /**
@@ -82,6 +109,7 @@ final class Client
      */
     public function fineTunes(): FineTunes
     {
+        if(!$this->abilities['fineTunes']) throw new \DomainException('FineTunes are not Supported');
         return new FineTunes($this->transporter);
     }
 
@@ -92,6 +120,7 @@ final class Client
      */
     public function moderations(): Moderations
     {
+        if(!$this->abilities['moderations']) throw new \DomainException('Moderations are not Supported');
         return new Moderations($this->transporter);
     }
 
@@ -102,6 +131,7 @@ final class Client
      */
     public function images(): Images
     {
+        if(!$this->abilities['images']) throw new \DomainException('Images are not Supported');
         return new Images($this->transporter);
     }
 }
